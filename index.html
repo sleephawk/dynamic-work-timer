@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Dynamic Work Timer</title>
+    <meta name="author" content="Sleephawk Designs">
+    <meta name="Description" content="a 16-bit style work timer that allows exporting of work habit data.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="big-container">
+        <div id="stopwatch-container">
+          <img src="pixil-frame-0 (5).png">
+          <div id="stopwatch">
+
+              <span id="hours">00</span>:
+
+              <span id="minutes">00</span>:
+          
+              <span id="seconds">00</span>:
+          
+              <span id="milliseconds">00</span>
+          
+          </div>
+          <div id="button-box">
+          <button id="start-button" class="basic-button">Start</button>
+          <button id="stop-button" class="basic-button">Stop</button>
+          <button id="reset-button" class="basic-button">Reset</button>
+          </div>
+        </div>
+        <div id="time-log-table">
+          <h2>Time Log</h2>
+          <button class="return-button basic-button">Return to Timer</button>
+          <button class="export-excel basic-button">Export to Excel</button>
+          <button class = "reset-button-2 basic-button">Start a New Timer</button>
+          
+          <table id="table">
+            <tbody id="log-info">
+              <tr>
+                <th class="table-heading">Work Log</th>
+                <th class="table-heading">Reason</th>
+                <th class="table-heading">Time</th>
+              </tr>
+            </tbody>
+          </table>
+          <div id="export-message">
+            <p>This will download a CSV file with the table to your computer. Would you like to continue?</p>
+            <div class="yes-no-buttons"></div>
+              <button class="yes-button-2 basic-button">Yes</button>
+              <button class="no-button-2 basic-button">No</button>
+            </div>
+          </div>
+          <div class="message-3">
+            <p>Are you sure you want to reset the timer? You will lose all your logged data</p>
+            <div class="yes-no-buttons">
+              <button class="yes-button-3 basic-button">Yes</button>
+              <button class="no-button-3 basic-button">No</button>
+          </div>
+        </div>
+        <div class="message-4">
+          <p>Nothing to see here...yet</p>
+          <button class="back-button basic-button">BACK</button>
+        </div>
+    </div>
+      <div id="reason-bar">
+        <h2 class="grid-item grid-heading">Oh having a break are we? What's the reason this time?</h2>
+        <br>
+        <div class="choice-button grid-item break-button">
+        <button><img src="pixil-frame-0 (6).png"></button>
+        <p>Break</p>
+        </div>
+        <div class="choice-button grid-item toilet-button">
+        <button><img src="pixil-frame-0 (7).png"></button>
+        <p>Toilet</p>
+        </div>
+        <div class="choice-button grid-item food-button">
+        <button><img src="pixil-frame-0 (2).png"></button>
+        <p>Food</p>
+        </div>
+        <div class="choice-button grid-item procr-button">
+        <button ><img src="pixil-frame-0 (3).png"></button>
+        <p class="procr-txt">PROCRASTINATION</p>
+        </div>
+        <div class="choice-button grid-item time-log-button">
+          <button ><img src="arcade.png"></button>
+          <p>Time Log</p>
+          </div>
+        <div class="choice-button grid-item ending-button">
+        <button><img src="pixil-frame-0 (8).png"></button>
+        <p>Ending Work</p>
+        </div>
+      </div>
+      <div class="procr-bar">
+        <h2>Go have fun you silly duck and remember you only live once...</h2>
+        <h3>(And that you need to get this work done...for real)</h3>
+        <button class="giant-button"><img class="duck" src="pixil-frame-0 (3).png"></button>
+      </div>
+      <div class="too-much">
+        <p>You've really pushed it here so you're going to have to start again I'm afraid.
+          I can't in good conscience say you're working when you've miraculously and 
+          incredibly clicked the button over 1000 times. Think I'm joking? This code would not run 
+          unless you've managed that. SO - the duck got the better of you. Bye for now.
+        </p>
+      </div>
+      <div  class="message-2">
+        <p>You have already logged your current time friend :)
+        Press start, reset or end work to continue</p>
+        <button class="back-button basic-button">BACK</button>
+    </div>
+    <div class="message-1">
+      <p>Are you sure you want to end your work session?</p>
+      <div class="yes-no-buttons">
+        <button class="yes-button-1 basic-button">Yes</button>
+        <button class="no-button-1 basic-button">No</button>
+    </div>
+
+      <script src="script.js"></script>
+</body>
+</html>
+

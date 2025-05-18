@@ -1,0 +1,315 @@
+body {
+font-family: "Press Start 2P", system-ui;
+background-color: #a3b2d2;
+position: relative;
+z-index: 0;
+}
+
+#big-container {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    /* max-width: 200px */
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+    height: auto;
+
+}
+
+.button-fun {
+    border-radius: 50%;
+}
+
+#stopwatch-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#stopwatch {
+    display: flex;
+    font-family: "Press Start 2P", system-ui;
+    font-size: xx-large;
+    color: #FFFEB0;
+    padding: 20px 50px;
+    margin: 30px;
+    background-color:#1E2F3A;
+    /* border-radius: 5%; */
+    line-height: 300%;
+
+}
+
+#button-box{
+    display: flex;
+    justify-self: center;
+}
+
+.choice-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.choice-button p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    max-width: 150px;
+}
+
+#reason-bar {
+    justify-self: center;
+    max-width: 500px;
+    display: none;
+    grid-template-areas:
+    "heading heading heading"
+    "break toilet food" 
+    "procr timelog ending";
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    font-family: "Press Start 2P", system-ui;
+    color: #1E2F3A;
+}
+
+.procr-bar {
+    justify-self: center;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    margin: 10px ;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    font-family: "Press Start 2P", system-ui;
+    color: #1E2F3A;
+}
+
+.procr-bar button {
+    width: 700px;
+    height: auto;
+    border: solid 50px #1E2F3A;
+    background-color: #FFFEB0;
+}
+
+.procr-bar button img {
+    width: 300%;
+    height: auto;
+}
+
+h2 {
+ width: 500px;
+ line-height: 115%;
+}
+
+.choice-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.choice-button button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button img {
+    max-width: 85%;
+    height: auto;
+}
+
+.return-button {
+    display: none;
+}
+
+.reset-button-2 {
+    display: none;
+}
+
+.basic-button, .choice-button button {
+    margin: 0px 20px;
+    font-family: "Press Start 2P", system-ui;
+    line-height: 150%;
+    background-color: #1E2F3A;
+    color: #FFFEB0 ;
+    padding: 20px 13px;
+    text-align: center;
+    align-items: center;
+
+}
+.choice-button button {
+    font-family: "Press Start 2P", system-ui;
+    width: 100px;
+    height: 100px;
+    background-color: #FFFEB0;
+    border: solid 3px #1E2F3A;
+
+}
+
+.grid-heading{
+    grid-area: heading;
+
+}
+
+
+.break-button{
+    grid-area: break;
+
+}
+
+.toilet-button{
+    grid-area: toilet;
+
+}
+
+.food-button{
+    grid-area: food;
+}
+
+.procr-button{
+    grid-area: procr;
+
+}
+
+.procr-txt {
+    font-size: small;
+}
+
+.ending-button{
+    grid-area: ending;
+
+}
+
+.time-log-button {
+    grid-area: timelog;
+}
+
+#time-log-table {
+    font-family: "Press Start 2P", system-ui;
+    display: none;
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1E2F3A;
+    color: #FFFEB0;
+    text-align: center;
+    border: solid 3px #1E2F3A;
+    padding-bottom: 15px;
+}
+
+#log-info {
+    font-family: "Press Start 2P", system-ui;
+}
+
+#button-log-table {
+    font-family: "Press Start 2P", system-ui;
+    display: none;
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+    line-height: 80%;
+    flex-direction: column;
+    /* background-color: #1E2F3A; */
+    color: #1E2F3A;;
+
+}
+
+.too-much {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: "Press Start 2P", system-ui;
+    color: #1E2F3A;
+    line-height: 115%;
+}
+
+#table {
+    border: solid 2px #1E2F3A;
+    background-color: #a3b2d2;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+tr, td {
+    padding: 20px;
+    color: #1E2F3A;
+    border: solid 2px #1E2F3A;
+    
+}
+
+.table-heading, .table-gold {
+    padding: 20px;
+    color: #1E2F3A;
+    background-color: #FFFEB0;
+    border: solid 2px #1E2F3A;
+    
+}
+
+.table-blue {    
+    padding: 20px;
+    color: #1E2F3A;
+    background-color:#a3b2d2;
+    border: solid 2px #1E2F3A;
+
+}
+
+
+
+.message-1, .message-2, .message-3, .message-4 {
+    display: none;
+    flex-direction: column;
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-align: center;
+    padding: 50px;
+    background-color: #1E2F3A;
+    color: #FFFEB0;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 500px;
+    }
+
+
+    #export-message {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-align: center;
+    padding: 50px;
+    background-color: #1E2F3A;
+    color: #FFFEB0;
+    font-size: 12px;
+    line-height: 1.5;
+
+    }
+
+
+
+.back-button {
+    margin: 10px;
+}
+
+.export-excel {
+    display: none;
+}
