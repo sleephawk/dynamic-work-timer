@@ -607,3 +607,15 @@ document.querySelectorAll('img').forEach(img => {
     img.draggable = false;
     img.setAttribute('loading', 'lazy');
 })
+
+
+/*---------------------------------------*/
+//Favicon
+/*---------------------------------------*/
+
+  const headTag = document.querySelector('head');
+  const favicon = document.createElement('link');
+  favicon.setAttribute('rel', 'icon');
+  favicon.setAttribute('href', 'favicon.svg');
+  favicon.setAttribute('type', 'image/svg+xml');
+  headTag.appendChild(favicon);
