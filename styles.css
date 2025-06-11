@@ -3,6 +3,8 @@ font-family: "Press Start 2P", system-ui;
 background-color: #a3b2d2;
 position: relative;
 z-index: 0;
+cursor: url(cursor.png), default;
+
 }
 
 #big-container {
