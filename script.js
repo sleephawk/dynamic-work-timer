@@ -1,81 +1,102 @@
-/*---------------------------------------*/
-/*----------VARIABLES----------*/
-/*---------------------------------------*/
-
-let startTime = 0;
-let elapsedTime = 0;
-let intervalId;
-let newLog;
-let breakCountNum = 0;
-let toiletCountNum = 0;
-let foodCountNum = 0;
-let procrCountNum = 0;
-let blankCountNum = 0;
-let startCount = 0;
-let stopCount = 0;
-let duckCount = 0;
+/*----------Query Selectors----------*/
 const bigContainer = document.getElementById("big-container");
 const stopwatch = document.getElementById("stopwatch");
 const buttonBox = document.getElementById("button-box");
 const reasonBar = document.getElementById("reason-bar");
 const procrBar = document.querySelector(".procr-bar");
 const tooMuch = document.querySelector(".too-much");
+
+const startButton = document.getElementById("start-button");
+const stopButton = document.getElementById("stop-button");
+const resetButton = document.getElementById("reset-button");
+
 const buttons = document.querySelectorAll("button");
-const breakButton = document.querySelector(".break-button");
-const toiletButton = document.querySelector(".toilet-button");
-const foodButton = document.querySelector(".food-button");
-const procrButton = document.querySelector(".procr-button");
-const endingButton = document.querySelector(".ending-button");
-const backButtons = document.querySelectorAll(".back-button");
+
+const reasonButtonsArray = [
+  (breakButton = document.querySelector(".break-button")),
+  (toiletButton = document.querySelector(".toilet-button")),
+  (foodButton = document.querySelector(".food-button")),
+  (procrButton = document.querySelector(".procr-button")),
+  (endingButton = document.querySelector(".ending-button")),
+  (backButtons = document.querySelectorAll(".back-button")),
+];
+
 const yesButton1 = document.querySelector(".yes-button-1");
 const yesButton2 = document.querySelector(".yes-button-2");
 const yesButton3 = document.querySelector(".yes-button-3");
+
 const noButton1 = document.querySelector(".no-button-1");
 const noButton2 = document.querySelector(".no-button-2");
 const noButton3 = document.querySelector(".no-button-3");
+
 const exportButton = document.querySelector(".export-excel");
+const exportMessage = document.getElementById("export-message");
 const resetButton2 = document.querySelector(".reset-button-2");
 const downloadExcel = document.querySelector(".download-excel");
 const timeLogButton = document.querySelector(".time-log-button");
-let running = false;
 const duck = document.querySelector(".duck");
 const giantButton = document.querySelector(".giant-button");
 const returnButton = document.querySelector(".return-button");
 const timeLogTable = document.getElementById("time-log-table");
 const logInfo = document.getElementById("log-info");
+
+const standardMessages = [
+  (message1 = document.querySelector(".message-1")),
+  (message2 = document.querySelector(".message-2")),
+  (message3 = document.querySelector(".message-3")),
+  (message4 = document.querySelector(".message-4")),
+];
+
+const table = document.getElementById("table");
+const tableHeadings = document.querySelectorAll(".table-heading");
+
+const counter = {
+  startTime: 0,
+  elapsedTime: 0,
+  break: 0,
+  toilet: 0,
+  food: 0,
+  procr: 0,
+  blank: 0,
+  start: 0,
+  stop: 0,
+  duck: 0,
+};
+
+let intervalId;
+let newLog;
 let logTime;
 let arrTime = [];
 let arrReason = [];
 let arrLogs = [];
 let timeLogs = [];
-const message1 = document.querySelector(".message-1");
-const message2 = document.querySelector(".message-2");
-const message3 = document.querySelector(".message-3");
-const message4 = document.querySelector(".message-4");
-const exportMessage = document.getElementById("export-message");
-const table = document.getElementById("table");
-const tableHeadings = document.querySelectorAll(".table-heading");
+let running = false;
 
-/*----------UTILS----------*/
+/*----------BUSINESS----------*/
 
-/*----------FUNCTIONS----------*/
-
-// updateTimer calculates elapsed time in relation to now and returns it formatted
-function updateTimer() {
+const updateTimer = () => {
   if (!running) return;
   let now = Date.now();
-  elapsedTime = now - startTime;
+  counter.elapsedTime = now - counter.startTime;
 
-  let hours = Math.floor(elapsedTime / 3600000);
-  let minutes = Math.floor((elapsedTime % 3600000) / 60000);
-  let seconds = Math.floor((elapsedTime % 60000) / 1000);
-  let milliseconds = Math.floor((elapsedTime % 1000) / 10);
+  let hours = Math.floor(counter.elapsedTime / 3600000);
+  let minutes = Math.floor((counter.elapsedTime % 3600000) / 60000);
+  let seconds = Math.floor((counter.elapsedTime % 60000) / 1000);
+  let milliseconds = Math.floor((counter.elapsedTime % 1000) / 10);
 
   document.getElementById("hours").textContent = add0(hours);
   document.getElementById("minutes").textContent = add0(minutes);
   document.getElementById("seconds").textContent = add0(seconds);
   document.getElementById("milliseconds").textContent = add0(milliseconds);
-}
+};
+
+const runTimer = () => {
+  setInterval(() => {
+    if (running) {
+      updateTimer();
+    }
+  }, 100);
+};
 
 //format time formats any input milliseconds into hours & minutes
 function formatTime(ms) {
@@ -88,81 +109,67 @@ function add0(number) {
   return (number < 10 ? "0" : "") + number;
 }
 
-//randomNum creates a random number
-function randomNum() {
+const randomNum = () => {
   return Math.floor(Math.random() * 10);
-}
+};
 
-// revolveDuck changes the picture when the duck button is clicked
-function revolveDuck() {
-  let number = randomNum();
-  switch (number) {
-    case 0:
-      duck.src = "powerranger.png";
-      giantButton.style.backgroundColor = "red";
-      break;
-    case 1:
-      duck.src = "shark.png";
-      giantButton.style.backgroundColor = "blue";
-      break;
-    case 2:
-      duck.src = "house.png";
-      giantButton.style.backgroundColor = "beige";
-      break;
-    case 3:
-      duck.src = "guitar.png";
-      giantButton.style.backgroundColor = "maroon";
-      break;
-    case 4:
-      duck.src = "ghost.png";
-      giantButton.style.backgroundColor = "black";
-      break;
-    case 5:
-      duck.src = "bugsword.png";
-      giantButton.style.backgroundColor = "purple";
-      break;
-    case 6:
-      duck.src = "arcade.png";
-      giantButton.style.backgroundColor = "gold";
-      break;
-    case 7:
-      duck.src = "alien.png";
-      giantButton.style.backgroundColor = "green";
-      break;
-    case 8:
-      duck.src = "world.png";
-      giantButton.style.backgroundColor = "aquamarine";
-      break;
-    case 9:
-      duck.src = "games.png";
-      giantButton.style.backgroundColor = "cyan";
-      break;
-    default:
-      duck.src = "pixil-frame-0 (3).png";
-      giantButton.style.backgroundColor = "#FFFEB0";
-      break;
-  }
-}
-
-//tooMuchFun breaks the page if the user hits 1000 clicks
-function tooMuchFun() {
-  if (duckCount > 1000) {
-    hideReasonsandProcr();
-    bigContainer.style.display = "none";
-    tooMuch.style.display = "flex";
-  }
-}
-
-/*---------------------------------------*/
-/* showMessage, showMessage2, showMessage3 & showExportMessage all update displays for messages, usually with yes/no options within 
-that message. yesButton numbers correspond to message numbers*/
-/*---------------------------------------*/
-
-// export message is "This will download a CSV file with the table" (HTML 48)
+const duckRevolveUtil = (source, color) => {
+  duck.src = source;
+  giantButton.style.backgroundColor = color;
+};
 
 const showMessage = (domEl) => {
   domEl.style.display = "flex";
 };
+
+const revolveDuck = () => {
+  const number = randomNum();
+  switch (number) {
+    case 0:
+      duckRevolveUtil("powerranger.png", "red");
+      break;
+    case 1:
+      duckRevolveUtil("shark.png", "blue");
+      break;
+    case 2:
+      duckRevolveUtil("house.png", "beige");
+      break;
+    case 3:
+      duckRevolveUtil("guitar.png", "maroon");
+      break;
+    case 4:
+      duckRevolveUtil("ghost.png", "black");
+      break;
+    case 5:
+      duckRevolveUtil("bugsword.png", "purple");
+      break;
+    case 6:
+      duckRevolveUtil("arcade.png", "gold");
+      break;
+    case 7:
+      duckRevolveUtil("alien.png", "green");
+      break;
+    case 8:
+      duckRevolveUtil("world.png", "aquamarine");
+      break;
+    case 9:
+      duckRevolveUtil("games.png", "cyan");
+      break;
+    default:
+      duckRevolveUtil("duck.png", "#FFFEB0");
+      break;
+  }
+};
+
+const tooMuchFun = () => {
+  if (counter.duck > 1000) {
+    States.hideReasonsandProcr();
+    bigContainer.style.display = "none";
+    tooMuch.style.display = "flex";
+  }
+};
+
+// export message is "This will download a CSV file with the table" (HTML 48)
 
 // exportCSV creates a CSV table and downloads it to the harddrive
 function exportCSV(table) {
@@ -195,92 +202,78 @@ function exportCSV(table) {
   document.body.removeChild(link); // Remove the link after downloading
 }
 
-//setInterval makes sure the timer continues running as long as running is true.
-setInterval(() => {
-  if (running) {
-    updateTimer();
-  }
-}, 100);
+const States = {
+  changeDisplay(display, ...els) {
+    els.forEach((el) => {
+      el.style.display = display;
+    });
+  },
+  hideMainElements() {
+    this.changeDisplay("none", stopwatch, reasonBar, buttonBox);
+  },
+  showMainElements() {
+    this.changeDisplay("flex", stopwatch, buttonBox);
+    this.changeDisplay("grid", reasonBar);
+  },
+  hideReasonsandProcr() {
+    this.changeDisplay("none", reasonBar, procrBar);
+  },
+  hideAllMessages() {
+    if (standardMessages.filter((m) => m.style.display !== "none"))
+      this.changeDisplay("none", message1, message2, message3, message4);
+  },
+};
 
-// hideMainELements hides the clock and the reason buttons
-function hideMainElements() {
-  stopwatch.style.display = "none";
-  reasonBar.style.display = "none";
-  buttonBox.style.display = "none";
-}
-
-//showMainElements unhides the above
-function showMainElements() {
-  stopwatch.style.display = "flex";
-  reasonBar.style.display = "grid";
-  buttonBox.style.display = "flex";
-}
-
-//hideReasonsandProcr only hides the reason buttons and the big duck page, and ensures that if
-function hideReasonsandProcr() {
-  reasonBar.style.display = "none";
-  procrBar.style.display = "none";
-}
-
-//setToZero sets all main counting elements and arrays back to 0, and deletes table entries
-function setToZero() {
-  elapsedTime = 0;
-  startTime = 0;
-  startCount = 0;
-  stopCount = 0;
+const setToZero = () => {
+  const zeroUtil = (obj, ...props) => {
+    props.forEach((p) => (obj[p] = 0));
+  };
+  zeroUtil(
+    counter,
+    "elapsedTime",
+    "startTime",
+    "start",
+    "stop",
+    "break",
+    "toilet",
+    "food",
+    "procr",
+    "blank"
+  );
   arrTime.length = 0;
   arrReason.length = 0;
   arrLogs.length = 0;
-  breakCountNum = 0;
-  toiletCountNum = 0;
-  foodCountNum = 0;
-  procrCountNum = 0;
-  blankCountNum = 0;
+
   document.getElementById("hours").textContent = "00";
   document.getElementById("minutes").textContent = "00";
   document.getElementById("seconds").textContent = "00";
   document.getElementById("milliseconds").textContent = "00";
   document
     .querySelectorAll(".newReasonLog")
-    .forEach((element) => element.remove());
+    .forEach((element) => element.remove()); //clears reason data
   document
     .querySelectorAll(".statistics")
-    .forEach((element) => element.remove());
-}
+    .forEach((element) => element.remove()); //clears reason data
+};
 
-//resetDuck changes the big duck button back to its original design
-function resetDuck() {
-  duck.src = "pixil-frame-0 (3).png";
-  giantButton.style.backgroundColor = "#FFFEB0";
-}
-
-function hideAllMessages() {
-  message1.style.display = "none";
-  message2.style.display = "none";
-  message3.style.display = "none";
-  message4.style.display = "none";
-}
+const resetDuck = () => {
+  duckRevolveUtil("duck.png", "#FFFEB0");
+};
 
 /*---------------------------------------*/
 /*----------EVENTS----------*/
 /*---------------------------------------*/
 
 //start-button event
-document.getElementById("start-button").addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+startButton.addEventListener("click", () => {
+  States.hideAllMessages();
   if (!running) {
-    startTime = Date.now() - elapsedTime; // Keep elapsed time consistent
+    counter.startTime = Date.now() - counter.elapsedTime; // Keep elapsed time consistent
     intervalId = setInterval(updateTimer, 10);
     running = true;
-    hideReasonsandProcr();
-    startCount++;
+    runTimer();
+    States.hideReasonsandProcr();
+    counter.start++;
   }
   if (arrLogs.length !== arrTime.length) {
     let blankLog = document.createElement("tr");
@@ -294,86 +287,63 @@ document.getElementById("start-button").addEventListener("click", () => {
     logInfo.appendChild(blankLog);
     arrLogs.push("No reason");
     arrReason.push("No reason");
-    blankCountNum++;
+    counter.blank++;
   }
 });
 /*---------------------------------------*/
 //stop-button event
 /*---------------------------------------*/
 
-document.getElementById("stop-button").addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
-  stopCount++;
+stopButton.addEventListener("click", () => {
+  States.hideAllMessages();
+  counter.stop++;
   if (running) {
+    console.log("ive reached this block");
     clearInterval(intervalId);
     running = false;
-    logTime = elapsedTime;
+    logTime = counter.elapsedTime;
     arrTime.push(logTime);
-    reasonBar.style.display = "grid";
-    procrBar.style.display = "none";
-    tooMuch.style.display = "none";
+    States.changeDisplay("none", procrBar, tooMuch);
+    States.changeDisplay("grid", reasonBar);
     if (arrReason.length === 0) {
-      arrReason.push(".");
+      arrReason.push("no reason");
     }
   }
 });
 
-//reset-button event (which re-routes to the message which handles the real page change)
-document.getElementById("reset-button").addEventListener("click", () => {
+resetButton.addEventListener("click", () => {
   showMessage(message3);
 });
 
 // Ensure stopwatch keeps counting accurately when switching tabs
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden && running) {
-    startTime = Date.now() - elapsedTime; // Ensure accurate time tracking
+    counter.startTime = Date.now() - elapsedTime; // Ensure accurate time tracking
     updateTimer(); // Immediately update time when coming back
   }
 });
 
 //time log event
 timeLogButton.addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+  States.hideAllMessages();
   if (arrLogs.length === 0) {
     showMessage(message4);
   } else {
-    hideMainElements();
-    timeLogTable.style.display = "flex";
-    returnButton.style.display = "flex";
+    States.hideMainElements();
+    States.changeDisplay("flex", timeLogTable, returnButton);
   }
 });
 
 //return button event
 returnButton.addEventListener("click", () => {
-  showMainElements();
-  timeLogTable.style.display = "none";
-  returnButton.style.display = "none";
+  States.hideMainElements();
+  States.changeDisplay("none", timeLogTable, returnButton);
+  States.changeDisplay("flex", stopwatch, buttonBox);
 });
 
 //break button event
 breakButton.addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+  States.hideAllMessages();
   if (arrReason.length === arrTime.length) {
     arrReason.push("Chilling");
     let breakLog = document.createElement("tr");
@@ -385,11 +355,11 @@ breakButton.addEventListener("click", () => {
       now.getMinutes()
     )}</td>`;
     logInfo.appendChild(breakLog);
-    hideMainElements();
+    States.hideMainElements();
     timeLogTable.style.display = "flex";
     returnButton.style.display = "flex";
     arrLogs.push("Chilling");
-    breakCountNum++;
+    counter.break++;
   } else {
     showMessage(message2);
   }
@@ -397,14 +367,7 @@ breakButton.addEventListener("click", () => {
 
 //toilet button event
 toiletButton.addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+  States.hideAllMessages();
   if (arrReason.length === arrTime.length) {
     arrReason.push("Toilet");
     let toiletLog = document.createElement("tr");
@@ -416,11 +379,11 @@ toiletButton.addEventListener("click", () => {
       now.getMinutes()
     )}</td>`;
     logInfo.appendChild(toiletLog);
-    hideMainElements();
+    States.hideMainElements();
     timeLogTable.style.display = "flex";
     returnButton.style.display = "flex";
     arrLogs.push("Toilet");
-    toiletCountNum++;
+    counter.toilet++;
   } else {
     showMessage(message2);
   }
@@ -428,14 +391,7 @@ toiletButton.addEventListener("click", () => {
 
 //food button event
 foodButton.addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+  States.hideAllMessages();
   if (arrReason.length === arrTime.length) {
     arrReason.push("Eating");
     let foodLog = document.createElement("tr");
@@ -447,11 +403,11 @@ foodButton.addEventListener("click", () => {
       now.getMinutes()
     )}</td>`;
     logInfo.appendChild(foodLog);
-    hideMainElements();
+    States.hideMainElements();
     timeLogTable.style.display = "flex";
     returnButton.style.display = "flex";
     arrLogs.push("Eating");
-    foodCountNum++;
+    counter.food++;
   } else {
     showMessage(message2);
   }
@@ -459,14 +415,7 @@ foodButton.addEventListener("click", () => {
 
 //procrastination button event (which creates a giant duck button)
 procrButton.addEventListener("click", () => {
-  if (
-    message1.style.display !== "none" ||
-    message2.style.display !== "none" ||
-    message3.style.display !== "none" ||
-    message4.style.display !== "none"
-  ) {
-    hideAllMessages();
-  }
+  States.hideAllMessages();
   if (arrReason.length === arrTime.length) {
     arrReason.push("Procrastination");
     let procrLog = document.createElement("tr");
@@ -481,7 +430,7 @@ procrButton.addEventListener("click", () => {
     logInfo.appendChild(procrLog);
     reasonBar.style.display = "none";
     procrBar.style.display = "flex";
-    procrCountNum++;
+    counter.procr++;
     arrLogs.push("Procrastination");
   } else {
     showMessage(message2);
@@ -491,7 +440,7 @@ procrButton.addEventListener("click", () => {
 //giant button event
 giantButton.addEventListener("click", () => {
   revolveDuck();
-  duckCount++;
+  counter.duck++;
   tooMuchFun();
 });
 
@@ -509,9 +458,9 @@ yesButton1.addEventListener("click", () => {
     logInfo.appendChild(endingLog);
     arrLogs.push("Ending work");
     arrReason.push("Ending work");
-    blankCountNum++;
+    counter.blank++;
   }
-  hideMainElements();
+  States.hideMainElements();
   procrBar.style.display = "none";
   message1.style.display = "none";
   timeLogTable.style.display = "flex";
@@ -535,27 +484,27 @@ yesButton1.addEventListener("click", () => {
   }
 
   //calculates the heighest number of breaks
-  let breaksArr = [
-    breakCountNum,
-    toiletCountNum,
-    foodCountNum,
-    procrCountNum,
-    blankCountNum,
+  const breaksArr = [
+    counter.break,
+    counter.toilet,
+    counter.food,
+    counter.procr,
+    counter.blank,
   ];
-  let breakNames = [
+  const breakNames = [
     "Chilling breaks",
     "Toilet breaks",
     "Food breaks",
     "Procrastination breaks",
     "Miscellanious breaks",
   ];
-  let maxBreaks = Math.max(...breaksArr); //calculates the highest break count
-  let maxBreakIndex = breaksArr.indexOf(maxBreaks);
-  let mostBreaksCombined = breakNames[maxBreakIndex];
+  const maxBreaks = Math.max(...breaksArr); //calculates the highest break count
+  const maxBreakIndex = breaksArr.indexOf(maxBreaks);
+  const mostBreaksCombined = breakNames[maxBreakIndex];
 
-  let statisticsRow = document.createElement("tr");
+  const statisticsRow = document.createElement("tr");
   statisticsRow.classList.add("statistics");
-  statisticsRow.innerHTML = `<td class="table-blue">${longestTime} minutes</td><td>${mostBreaksCombined}</td><td>${duckCount}</td>`;
+  statisticsRow.innerHTML = `<td class="table-blue">${longestTime} minutes</td><td>${mostBreaksCombined}</td><td>${counter.duck}</td>`;
   logInfo.appendChild(statisticsRow);
 });
 
@@ -567,7 +516,8 @@ noButton1.addEventListener("click", () => {
 yesButton2.addEventListener("click", () => {
   exportCSV(table);
   setToZero();
-  hideReasonsandProcr();
+
+  States.hideReasonsandProcr();
   resetDuck();
   exportMessage.style.display = "none";
   clearInterval(intervalId);
@@ -582,7 +532,7 @@ yesButton2.addEventListener("click", () => {
 });
 
 noButton2.addEventListener("click", () => {
-  hideMainElements();
+  States.hideMainElements();
   procrBar.style.display = "none";
   message1.style.display = "none";
   timeLogTable.style.display = "flex";
@@ -593,7 +543,8 @@ noButton2.addEventListener("click", () => {
 yesButton3.addEventListener("click", () => {
   clearInterval(intervalId);
   setToZero();
-  hideReasonsandProcr();
+  console.log(counter);
+  States.hideReasonsandProcr();
   resetDuck();
   running = false;
   tooMuch.style.display = "none";
